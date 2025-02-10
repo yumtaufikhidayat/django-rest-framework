@@ -3,6 +3,6 @@ Django REST Framework is is a powerful and flexible toolkit for building Web API
 
 ## Stacks
 - Python 3.12
-- Django 4.12 (LTS)
+- Django 4.2 (LTS)
 - Django Project
 - Django App
