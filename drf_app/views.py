@@ -9,7 +9,7 @@ from drf_app.serializers import ProductSerializer
 
 class ProductListCreateView(APIView):
     def get(self, request):
-        products = Product.objects.all()
+        products = Product.objects.filter(is_deleted=False)
         serializer = ProductSerializer(products, many=True, context={'request': request})
         return Response({
             "status": "success",
@@ -30,7 +30,7 @@ class ProductListCreateView(APIView):
 class ProductDetailView(APIView):
     def get_object(self, pk):
         try:
-            return Product.objects.get(pk=pk)
+            return Product.objects.get(pk=pk, is_deleted=False)
         except Product.DoesNotExist:
             raise Http404
 
@@ -55,6 +55,7 @@ class ProductDetailView(APIView):
 
     def delete(self, request, pk):
         product = self.get_object(pk)
-        product.delete()
+        product.is_deleted = True
+        product.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
