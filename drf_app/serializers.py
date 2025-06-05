@@ -14,7 +14,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'description', 'shop', 'location',
             'price', 'discount', 'category',
             'stock', 'is_available', 'picture',
-            '_links'
+            'is_deleted', '_links'
         ]
 
     def get__links(self, obj):

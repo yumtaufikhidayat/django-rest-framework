@@ -9,11 +9,20 @@ from drf_app.serializers import ProductSerializer
 
 class ProductListCreateView(APIView):
     def get(self, request):
+        name = request.query_params.get('name')
+        location = request.query_params.get('location')
+
         products = Product.objects.filter(is_deleted=False)
+
+        if name:
+            products = products.filter(name__icontains=name)
+
+        if location:
+            products = products.filter(location__icontains=location)
+
         serializer = ProductSerializer(products, many=True, context={'request': request})
         return Response({
-            "status": "success",
-            "data": serializer.data
+            "products": serializer.data
         }, status=status.HTTP_200_OK)
 
     def post(self, request):
